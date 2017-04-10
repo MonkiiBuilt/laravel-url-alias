@@ -8,7 +8,11 @@
 
 namespace MonkiiBuilt\LaravelUrlAlias;
 
+use Illuminate\Routing\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use MonkiiBuilt\LaravelUrlAlias\Validators\UrlAliasValidator;
+use MonkiiBuilt\LaravelUrlAlias\Routes\UrlAliasRoute;
+use Illuminate\Support\Facades\Route as RouteFacade;
 
 class ServiceProvider extends BaseServiceProvider {
 
@@ -32,14 +36,18 @@ class ServiceProvider extends BaseServiceProvider {
         $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'url-alias');
-    }
 
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
+        if (!\App::runningInConsole()) {
+
+            $validator = $this->app->make(UrlAliasValidator::class);
+
+            Route::$validators = array_merge(Route::getValidators(), [
+                $validator
+            ]);
+
+            $urlAlias = app(UrlAlias::class);
+
+            RouteFacade::getRoutes()->add(new UrlAliasRoute($urlAlias));
+        }
     }
 }
