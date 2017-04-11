@@ -7,4 +7,4 @@
  */
 // pages
 
-Route::get('/url-alias/{page}', ['uses' => 'MonkiiBuilt\LaravelUrlAlias\Controllers\UrlAlias@index', 'as' => 'url-alias.show']);
+Route::get('/url-alias/{page}', ['uses' => 'MonkiiBuilt\LaravelUrlAlias\Controllers\UrlAliasController@index', 'as' => 'url-alias.show']);
