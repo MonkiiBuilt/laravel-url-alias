@@ -1,13 +1,13 @@
 {
   "name": "laravel-url-alias",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "require": {
     "php": ">=5.5.9",
     "laravel/framework": "5.4.*"
   },
   "autoload": {
     "psr-0" : {
-      "MonkiiBuilt\\UrlAlias" : "src"
+      "MonkiiBuilt\\LaravelUrlAlias" : "src"
     }
   }
 }
