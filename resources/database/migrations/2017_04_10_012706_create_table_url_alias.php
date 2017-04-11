@@ -18,7 +18,9 @@ class CreateTableUrlAlias extends Migration
             $table->timestamps();
 
             $table->string('path');
-            $table->string('system_path');
+            $table->string('system_path')->nullable();
+            $table->integer('aliasable_id')->unsigned()->nullable();
+            $table->string('aliasable_type', 255)->nullable();
         });
     }
 

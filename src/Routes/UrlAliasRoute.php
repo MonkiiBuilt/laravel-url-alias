@@ -38,7 +38,7 @@ class UrlAliasRoute extends BaseRoute
                     return redirect(url($urlAlias->system_path), 301);
                 }
 
-                $systemPath = 'pages/' . $urlAlias->aliasable->id;
+                $systemPath = 'url-alias/' . $urlAlias->aliasable->id;
 
                 $request->server->set('REQUEST_URI', $systemPath);
 
