@@ -11,14 +11,34 @@ namespace MonkiiBuilt\LaravelUrlAlias\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use MonkiiBuilt\LaravelUrlAlias\UrlAlias;
 
 class UrlAliasController extends Controller
 {
-    public function index(Request $request, $content)
+    public function index(Request $request, $urlalias_id)
     {
-        if (isset($content->template) && \View::exists($content->template)) {
-            return view($content->template, ['content' => $content]);
+        $urlAlias = UrlAlias::findOrFail($urlalias_id);
+
+        $class = $urlAlias->aliasable_type;
+
+        $model = null;
+
+        if (class_exists($class)) {
+
+            $model = $class::find($urlAlias->aliasable_id);
+
         }
-        return view('url-alias::index', ['content' => $content]);
+
+        if (!$model) {
+            abort(404);
+        }
+
+        if (isset($model->template) && \View::exists($model->template)) {
+
+            return view($model->template, ['model' => $model]);
+
+        }
+
+        return view('url-alias::url-alias.index', ['model' => $model]);
     }
 }

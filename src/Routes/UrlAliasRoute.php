@@ -38,7 +38,7 @@ class UrlAliasRoute extends BaseRoute
                     return redirect(url($urlAlias->system_path), 301);
                 }
 
-                $systemPath = 'url-alias/' . $urlAlias->aliasable->id;
+                $systemPath = 'url-alias/' . $urlAlias->id;
 
                 $request->server->set('REQUEST_URI', $systemPath);
 
@@ -56,7 +56,7 @@ class UrlAliasRoute extends BaseRoute
             },
         ];
         $action['uses']->bindTo($this);
-        parent::__construct(['GET', 'HEAD'], '{path}', $action);
+        parent::__construct(['GET', 'HEAD'], 'url-alias/{urlalias}', $action);
     }
 
     /**
