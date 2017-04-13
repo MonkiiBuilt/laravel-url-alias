@@ -49,5 +49,9 @@ class ServiceProvider extends BaseServiceProvider {
 
             RouteFacade::getRoutes()->add(new UrlAliasRoute($urlAlias));
         }
+
+        $this->publishes([
+            __DIR__.'/../config/laravel-url-alias.php' => config_path('/laravel-url-alias.php')
+        ], 'administrator-config');
     }
 }
