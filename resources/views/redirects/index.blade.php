@@ -54,7 +54,7 @@
                                 <td class="col-3">{{ url($redirect->path) }}</td>
                                 <td class="col-4">{!! url($redirect->system_path) !!}</td>
                                 <td class="col-5">
-                                    <a href="{{ route('laravel-administrator-url-alias-edit', ['url-alias' => $redirect->id]) }}">Edit</a>
+                                    <a href="{{ route('laravel-administrator-url-alias-edit', [$redirect->id]) }}">Edit</a>
                                     {!! Form::open(['route' => ['laravel-administrator-url-alias-delete', $redirect->id],'class' => 'plain confirm']) !!}
                                     {!! Form::hidden('_method', 'DELETE') !!}
                                     <button type="submit">Delete</button>
