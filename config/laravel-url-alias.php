@@ -12,9 +12,9 @@ return [
      *
      */
     'defaultSystemPath' => 'pages/',
-    'laravel-administrator-menu' => [
+    'menu' => [
         'main' => [
-            'Url Redirects' => 'laravel-url-alias',
+            'laravel-administrator-url-alias' => 'Url Redirects',
         ]
     ]
 ];

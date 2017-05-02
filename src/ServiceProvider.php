@@ -28,8 +28,11 @@ class ServiceProvider extends BaseServiceProvider {
      *
      * @return void
      */
-    public function boot()
+    public function boot(\MonkiiBuilt\LaravelAdministrator\PackageRegistry $packageRegistry)
     {
+        $packageRegistry->registerPackage('LaravelUrlAlias');
+
+        $packageRegistry->registerConfig(config_path() . '/laravel-administrator/laravel-url-alias.php');
 
         $this->loadMigrationsFrom(__DIR__.'/../resources/database/migrations');
 
@@ -48,10 +51,11 @@ class ServiceProvider extends BaseServiceProvider {
             $urlAlias = app(UrlAlias::class);
 
             RouteFacade::getRoutes()->add(new UrlAliasRoute($urlAlias));
+
         }
 
         $this->publishes([
-            __DIR__.'/../config/laravel-url-alias.php' => config_path('/laravel-url-alias.php')
+            __DIR__.'/../config/laravel-url-alias.php' => config_path('/laravel-administrator/laravel-url-alias.php')
         ], 'administrator-config');
     }
 }
