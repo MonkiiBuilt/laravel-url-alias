@@ -17,7 +17,11 @@ return [
         'main' => [
             'laravel-administrator-url-alias' => [
                 'label' => 'Url Redirects',
-                'classes' => []
+                'classes' => [],
+                'children' => [
+                    'laravel-administrator-url-alias-create',
+                    'laravel-administrator-url-alias-edit',
+                ]
             ]
         ]
     ]
