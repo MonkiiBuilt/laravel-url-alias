@@ -32,8 +32,6 @@ class ServiceProvider extends BaseServiceProvider {
     {
         $packageRegistry->registerPackage('LaravelUrlAlias');
 
-        $packageRegistry->registerConfig(config_path() . '/laravel-administrator/laravel-url-alias.php');
-
         $this->loadMigrationsFrom(__DIR__.'/../resources/database/migrations');
 
         $this->loadRoutesFrom(__DIR__.'/routes.php');
