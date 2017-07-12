@@ -28,3 +28,16 @@ Also manages URL redirects.
 4. Run ```php artisan vendor:publish```
 
 5. Run ```php artisan migrate```
+
+6. You need to add the CheckUrlAlias middleware to your Kernel. Open up ```/app/Http/Kernel.php``` and at the top of the file add 
+
+```use App\Http\Middleware\CheckUrlAlias;```
+
+and then update the ```$middleware``` array to look like this:
+
+```
+protected $middleware = [
+        ...
+        \MonkiiBuilt\LaravelUrlAlias\Middleware\CheckUrlAlias::class
+    ];
+```

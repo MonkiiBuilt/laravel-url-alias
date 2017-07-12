@@ -30,4 +30,14 @@ class UrlAlias extends Eloquent
     {
         return $this->morphTo();
     }
+
+    public static function loadBySystemPath($path, $type = 'alias') {
+        $path = trim($path, '/');
+        return static::where(['system_path' => $path, 'type' => $type])->first();
+    }
+
+    public static function loadByAliasedPath($path) {
+        $path = trim($path, '/');
+        return static::where('aliased_path', $path)->first();
+    }
 }

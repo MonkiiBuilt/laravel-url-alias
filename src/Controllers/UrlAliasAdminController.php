@@ -11,12 +11,20 @@ namespace MonkiiBuilt\LaravelUrlAlias\Controllers;
 use App\Http\Controllers\Controller;
 use MonkiiBuilt\LaravelUrlAlias\UrlAlias;
 use Illuminate\Http\Request;
+use MonkiiBuilt\LaravelAdministrator\PackageRegistry;
 
 /**
  * Class UrlAliasAdminController
  * @package MonkiiBuilt\LaravelUrlAlias\Controllers
  */
-class UrlAliasAdminController extends Controller{
+class UrlAliasAdminController extends Controller
+{
+    private $packageRegistry;
+
+    public function __construct(PackageRegistry $packageRegistry)
+    {
+        $this->packageRegistry = $packageRegistry;
+    }
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -44,7 +52,6 @@ class UrlAliasAdminController extends Controller{
     public function edit(Request $request, $id)
     {
         $urlAlias = UrlAlias::findOrFail($id);
-
         return view('url-alias::redirects.edit', ['redirect' => $urlAlias]);
     }
 
@@ -86,5 +93,48 @@ class UrlAliasAdminController extends Controller{
         $urlAlias = UrlAlias::findOrFail($id);
         $urlAlias->delete();
         return \Redirect::route('laravel-administrator-url-alias')->with(['success' => 'Redirect deleted']);
+    }
+
+    /**
+     * Return form to add / edit the alias for this page.
+     *
+     * @param $page_id
+     *
+     * @return mixed
+     */
+    public function createAlias($page_id) {
+
+        $systemPath = '/page/' . $page_id;
+
+        // Try and load an existing alias
+        $alias = UrlAlias::loadBySystemPath($systemPath);
+        $tabs = $this->packageRegistry->getTabs('editPage', $page_id);
+
+        return view('url-alias::aliases.edit', [
+            'page_id' => $page_id,
+            'alias_id' => empty($alias->id) ? null : $alias->id,
+            'aliased_path' => empty($alias->aliased_path) ? '' : trim($alias->aliased_path, '/'),
+            'tabs' => $tabs,
+        ]);
+    }
+
+    /**
+     * @param $page_id
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return mixed
+     */
+    public function storeAlias($page_id, Request $request)
+    {
+        if(!empty($request->alias_id)) {
+            $alias = UrlAlias::findOrFail($request->alias_id);
+        } else {
+            $alias = new UrlAlias;
+        }
+        $alias->system_path = '/pages/' . $page_id;
+        $alias->aliased_path = '/' . $request->aliased_path;
+        $alias->type = 'alias';
+        $alias->save();
+        return \Redirect::route('laravel-administrator-pages')->with(['success' => 'Alias created']);
     }
 }

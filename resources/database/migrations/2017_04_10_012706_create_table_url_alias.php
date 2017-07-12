@@ -16,11 +16,9 @@ class CreateTableUrlAlias extends Migration
         Schema::create('url_alias', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-
-            $table->string('path');
-            $table->string('system_path')->nullable();
-            $table->integer('aliasable_id')->unsigned()->nullable();
-            $table->string('aliasable_type', 255)->nullable();
+            $table->string('system_path');
+            $table->string('aliased_path');
+            $table->enum('type', ['alias', 'permanent', 'temporary']);
         });
     }
 

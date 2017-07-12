@@ -23,4 +23,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'MonkiiBuilt\LaravelUrlAlias',
     Route::put('/redirects/{id}', ['as' => 'laravel-administrator-url-alias-put', 'uses' => 'Controllers\UrlAliasAdminController@update']);
 
     Route::delete('/redirects/{id}', ['as' => 'laravel-administrator-url-alias-delete', 'uses' => 'Controllers\UrlAliasAdminController@destroy']);
+
+    Route::get('/pages/{id}/url-alias', ['as' => 'laravel-administrator-url-alias-create-alias', 'uses' => 'Controllers\UrlAliasAdminController@createAlias']);
+
+    Route::post('/pages/{id}/url-alias', ['as' => 'laravel-administrator-url-alias-store', 'uses' => 'Controllers\UrlAliasAdminController@storeAlias']);
 });
