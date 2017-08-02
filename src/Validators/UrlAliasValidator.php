@@ -17,10 +17,10 @@ class UrlAliasValidator implements ValidatorInterface
     public function matches(Route $route, Request $request)
     {
         if (is_a($route, 'MonkiiBuilt\LaravelUrlAlias\Routes\UrlAliasRoute')) {
-            if (null === ($urlAlias = $route->getUrlAlias())) {
-                return false;
+            if (null !== ($urlAlias = $route->getUrlAlias())) {
+                return true;
             }
-            return true;
+            return false;
         }
         return true;
     }

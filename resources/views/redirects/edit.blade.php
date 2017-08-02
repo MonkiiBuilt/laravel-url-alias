@@ -23,12 +23,12 @@
                     <h3>Redirect from</h3>
                 </div>
                 <div class="panel__full">
-                    <fieldset class="{{ $errors->has('path') ? 'error' : '' }}">
+                    <fieldset class="{{ $errors->has('aliased_path') ? 'error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon">{{ url('/') }}/</span>
-                            {!! Form::text('path', null, array('class' => 'form-control')) !!}
+                            {!! Form::text('aliased_path', null, array('class' => 'form-control')) !!}
                         </div>
-                        <div class="form__error">{{ $errors->first('path') }}</div>
+                        <div class="form__error">{{ $errors->first('aliased_path') }}</div>
                     </fieldset>
                 </div>
             </div>

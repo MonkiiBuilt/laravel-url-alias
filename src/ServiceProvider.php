@@ -28,7 +28,7 @@ class ServiceProvider extends BaseServiceProvider {
      *
      * @return void
      */
-    public function boot(\MonkiiBuilt\LaravelAdministrator\PackageRegistry $packageRegistry)
+    public function boot(\MonkiiBuilt\LaravelAdministrator\PackageRegistry $packageRegistry, \App\Http\Kernel $kernel, \Illuminate\Routing\Router $router)
     {
         $packageRegistry->registerPackage('LaravelUrlAlias');
 
@@ -40,22 +40,28 @@ class ServiceProvider extends BaseServiceProvider {
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'url-alias');
 
-        // I'm not sure what this is for but don't think it's needed for the
-        // new URL aliasing system (but leaving just in case)
-        // Please fully delete if no longer required.
-//        if (!\App::runningInConsole()) {
-//
-//            $validator = $this->app->make(UrlAliasValidator::class);
-//
-//            Route::$validators = array_merge(Route::getValidators(), [
-//                $validator
-//            ]);
-//
-//            $urlAlias = app(UrlAlias::class);
-//
-//            RouteFacade::getRoutes()->add(new UrlAliasRoute($urlAlias));
-//
-//        }
+        /**
+         * If the request is a cli / artisan request then we don't want to add the url alias route
+         */
+        if (!\App::runningInConsole()) {
+
+            /**
+             * Add the custom route validator
+             */
+            $validator = $this->app->make(UrlAliasValidator::class);
+
+            Route::$validators = array_merge(Route::getValidators(), [
+                $validator
+            ]);
+
+            /**
+             * Add the custom url alias route
+             */
+            $urlAlias = app(UrlAlias::class);
+
+            RouteFacade::getRoutes()->add(new UrlAliasRoute($urlAlias));
+
+        }
 
         $this->publishes([
             __DIR__.'/../config/laravel-url-alias.php' => config_path('/laravel-administrator/laravel-url-alias.php')

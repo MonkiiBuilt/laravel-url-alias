@@ -7,7 +7,7 @@
  */
 // pages
 
-Route::get('/url-alias/{page}', ['uses' => 'MonkiiBuilt\LaravelUrlAlias\Controllers\UrlAliasController@index', 'as' => 'url-alias.show']);
+//Route::get('/pages/{page}', ['uses' => 'MonkiiBuilt\LaravelUrlAlias\Controllers\UrlAliasController@index', 'as' => 'url-alias.show']);
 
 
 Route::group(['prefix' => 'admin', 'namespace' => 'MonkiiBuilt\LaravelUrlAlias', 'middleware' => ['laravel-administrator-menus', 'web']], function () {

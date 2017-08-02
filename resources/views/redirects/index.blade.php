@@ -51,7 +51,7 @@
                         <tbody class=" sortable">
                         @foreach($redirects as $redirect)
                             <tr data-id="{{ $redirect->id }}">
-                                <td class="col-3">{{ url($redirect->path) }}</td>
+                                <td class="col-3">{{ url($redirect->aliased_path) }}</td>
                                 <td class="col-4">{!! url($redirect->system_path) !!}</td>
                                 <td class="col-5">
                                     <a href="{{ route('laravel-administrator-url-alias-edit', [$redirect->id]) }}">Edit</a>

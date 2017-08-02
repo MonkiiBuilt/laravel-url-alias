@@ -13,32 +13,56 @@ use MonkiiBuilt\LaravelUrlAlias\Validators\UrlAliasValidator;
 use Illuminate\Routing\Matching\MethodValidator;
 use Illuminate\Routing\Matching\SchemeValidator;
 use Illuminate\Routing\Matching\HostValidator;
+use Illuminate\Routing\Matching\UriValidator;
 use Illuminate\Http\Request;
 
+/**
+ * Class UrlAliasRoute
+ * @package MonkiiBuilt\LaravelUrlAlias\Routes
+ */
 class UrlAliasRoute extends BaseRoute
 {
+    /**
+     * @var
+     */
     protected $validatorOverrides;
 
+    /**
+     * @var
+     */
     protected $urlAlias;
 
+    /**
+     * UrlAliasRoute constructor.
+     * @param array|string $urlAlias
+     */
     public function __construct($urlAlias)
     {
         $path = app('request')->path();
 
         $originalRequest = app('request');
 
-        $urlAlias = $urlAlias::where('path', $path)->first();
+        $urlAlias = $urlAlias::where('aliased_path', $path)->first();
 
         $this->urlAlias = $urlAlias;
 
         $action = [
             'uses'=> function(Request $request) use ($urlAlias, $originalRequest) {
 
-                if ($urlAlias->system_path) {
-                    return redirect(url($urlAlias->system_path), 301);
+                /**
+                 * If the urlAlias type is not an alias then it's either a 301
+                 * or 302 redirect. Just redirect the request to the system_path.
+                 */
+                if ($urlAlias->type != 'alias') {
+                    $status = $urlAlias->type == 'permanent' ? 301 : 302;
+                    return redirect(url($urlAlias->system_path), $status);
                 }
 
-                $systemPath = 'url-alias/' . $urlAlias->id;
+                /**
+                 * Otherwise dispatch the request using the system_path
+                 * without any redirect and return the response.
+                 */
+                $systemPath = $urlAlias->system_path;
 
                 $request->server->set('REQUEST_URI', $systemPath);
 
@@ -53,10 +77,13 @@ class UrlAliasRoute extends BaseRoute
                 );
 
                 return \Route::dispatchToRoute($request);
+
             },
         ];
+
         $action['uses']->bindTo($this);
-        parent::__construct(['GET', 'HEAD'], 'url-alias/{urlalias}', $action);
+
+        parent::__construct(['GET', 'HEAD'], '_url-alias_', $action);
     }
 
     /**
@@ -105,6 +132,9 @@ class UrlAliasRoute extends BaseRoute
         return $this->validatorOverrides;
     }
 
+    /**
+     * @return mixed
+     */
     public function getUrlAlias()
     {
         return $this->urlAlias;

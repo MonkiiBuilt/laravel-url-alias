@@ -15,7 +15,7 @@ class UrlAlias extends Eloquent
     protected $table = 'url_alias';
 
     protected $fillable = [
-        'path',
+        'aliased_path',
         'system_path',
         'created_at',
         'updated_at',
