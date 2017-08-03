@@ -18,10 +18,21 @@ class UrlAliasValidator implements ValidatorInterface
     {
         if (is_a($route, 'MonkiiBuilt\LaravelUrlAlias\Routes\UrlAliasRoute')) {
             if (null !== ($urlAlias = $route->getUrlAlias())) {
+                /**
+                 * If this is a custom url alias route and it has a valid alias object
+                 * return true here to allow the route to process the request.
+                 */
                 return true;
             }
+            /**
+             * Otherwise return false to display 404 to the user
+             */
             return false;
         }
+        /**
+         * If it's not a custom url alias route return true to pass the validation
+         * on to whatever route is supposed to be handling the request.
+         */
         return true;
     }
 }
