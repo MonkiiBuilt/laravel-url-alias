@@ -1,13 +1,21 @@
 {
-  "name": "laravel-url-alias",
-  "version": "0.0.5",
-  "require": {
-    "php": ">=5.5.9",
-    "laravel/framework": "5.4.*"
-  },
-  "autoload": {
-    "psr-0" : {
-      "MonkiiBuilt\\LaravelUrlAlias" : "src"
-    }
-  }
+    "name": "monkiibuilt/laravel-url-alias",
+    "require": {
+        "php": ">=5.5.9",
+        "laravel/framework": "^5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "MonkiiBuilt\\LaravelUrlAlias\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MonkiiBuilt\\LaravelUrlAlias\\ServiceProvider"
+            ]
+        }
+    },
+    "description": "Admin system for setting url aliases and redirects",
+    "license": "proprietary"
 }
