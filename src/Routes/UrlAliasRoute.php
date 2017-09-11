@@ -13,7 +13,6 @@ use MonkiiBuilt\LaravelUrlAlias\Validators\UrlAliasValidator;
 use Illuminate\Routing\Matching\MethodValidator;
 use Illuminate\Routing\Matching\SchemeValidator;
 use Illuminate\Routing\Matching\HostValidator;
-use Illuminate\Routing\Matching\UriValidator;
 use Illuminate\Http\Request;
 
 /**
